@@ -1,0 +1,28 @@
+<div class="container">
+        <div class="row">
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class='ui-block'>
+                        <div class='ui-block-title'>
+                            <h6 class='title'>Your profile views history</h6>
+                        </div>
+                 <ul class='notification-list'>
+                     <div class="row">
+                        <% for (var i = 0; i < views.length; i++) { %>
+                            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <li>
+                                <div class='author-thumb'>
+                                    <img class="view_img" src='/images/user_img/<%= views[i].image %>' alt='author'>
+                                </div>
+                                <div class='notification-event'>
+                                    <a href='/users/profile/<%= views[i].username %>' class='h6 notification-friend'><%= views[i].firstname %> <%= views[i].lastname %></a> has seen your <a href='#' class='notification-link'>profile</a>.
+                                    <span class='notification-date'><time class='entry-date updated' datetime='<%= views[i].date_view %>'><%= mom_views[i] %></time></span>
+                                </div>
+                            </li>
+                        </div>
+                         <% } %>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,438 @@
+<!-- Profile Settings Responsive -->
+<!-- Profile Settings Responsive -->
+
+<div class="profile-settings-responsive">
+
+	<a href="#" class="js-profile-settings-open profile-settings-open">
+		<i class="fa fa-angle-right" aria-hidden="true"></i>
+		<i class="fa fa-angle-left" aria-hidden="true"></i>
+	</a>
+	<div class="mCustomScrollbar" data-mcs-theme="dark">
+		<div class="ui-block">
+			<div class="your-profile">
+				<div class="ui-block-title ui-block-title-small">
+					<h6 class="title">Your PROFILE</h6>
+				</div>
+
+				<div id="accordion1" role="tablist" aria-multiselectable="true">
+					<div class="card">
+						<div class="card-header" role="tab" id="headingOne-1">
+							<h6 class="mb-0">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne">
+									Profile Settings
+									<svg class="olymp-dropdown-arrow-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
+								</a>
+							</h6>
+                        </div>
+
+						<div id="collapseOne-1" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+							<ul class="your-profile-menu">
+								<li>
+									<a href="#" onclick="change_content('pers_infos')">Personal Information</a>
+								</li>
+								<li>
+									<a href="#" onclick="change_content('edit_pswd')" >Change Password</a>
+								</li>
+								<li>
+									<a href="#" onclick="change_content('map_setting')" >Map Setting</a>
+								</li>
+							
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Profile Settings Responsive -->
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer header-spacer-small"></div>
+
+
+<!-- Main Header Account -->
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+					<h1>Your Account Dashboard</h1>
+					<p>Welcome to your account dashboard! Here you’ll find everything you need to change your profile
+	information, settings, read notifications and requests, view your latest messages, change your pasword and much
+	more! Also you can create or manage your own favourite page, have fun!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Main Header Account -->
+<div class="container">
+	<div class="row">
+		<div id="content_div" class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-2 col-12">
+			
+
+					<div class="ui-block" id="pers_infos" style="display: <% if (page == 'pers_infos') { %> block <% } else {%> none <% } %>">
+						<div class="ui-block-title">
+							<h6 class="title">Personal Information</h6>
+						</div>
+						<div class="ui-block-content">
+							<!-- Personal Information Form  -->
+		
+							<form class="form-horizontal" role="form" method="POST" action="/users/edit_profile?page=pers_infos">
+								<% if(error_msg != ''){ %>
+								<p class="col-lg-8 control-label err_msg">
+									<%= error_msg %>
+								</p>
+								<% } %>
+								<% if(success_msg != ''){ %>
+								<p class="col-lg-8 control-label success_msg">
+									<%= success_msg %>
+								</p>
+								<% } %>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">First name:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input class="form-control" name="firstname" type="text" value="<%= typeof users.firstname != 'undefined' ? users.firstname : '' %>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Last name:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input class="form-control" type="text" name="lastname" value="<%= typeof users.lastname != 'undefined' ? users.lastname : '' %>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Username:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input class="form-control" type="text" name="username" value="<%= typeof users.username != 'undefined' ? users.username : '' %>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Email:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input class="form-control" type="text" name="email" value="<%= typeof users.email != 'undefined' ? users.email : '' %>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Age:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input class="form-control" type="text" name="age" value="<%= typeof users.age != 'undefined' ? users.age : '' %>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Gender:</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<div class="ui-select">
+											<select class="form-control" name="gender">
+												<option value="male" <% if (users.gender=='male' ) { %> selected
+													<% } %> > Male</option>
+												<option value="female" <% if (users.gender=='female' ) { %> selected
+													<% } %> >Female</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-5 control-label"> Sexual preferences :</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<div class="ui-select">
+											<select class="form-control" name="sex_pref">
+												<option value="men" <% if (users.sex_pref=='men' ) { %> selected
+													<% } %> >Men</option>
+												<option value="women" <% if (users.sex_pref=='women' ) { %> selected
+													<% } %> >Women</option>
+												<option value="everyone" <% if (users.sex_pref=='everyone' ) { %> selected
+													<% } %> >Everyone</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">Biography :</label>
+									<div class="col-lg-8" style="max-width:100%">
+										<textarea class="form-control" name="biography" required maxlength="150"><%= typeof users.biography != 'undefined' ? users.biography : '' %></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="interests" class="col-lg-3 control-label"> Interests :</label>
+									<div class="col-lg-8" style="max-width:100%">
+									<div class="ui-select">
+											<select class="form-control" name="inter" id="interests">
+													<option value="" selected disabled>-- SELECT --</option>
+													<% for (var i = 0; i < interests.length; i++) { %>
+													<option value="<%= interests[i].interest %>"><%= interests[i].interest %></option>
+													<% } %>
+											</select>
+											<ul class="ks-cboxtags mt-3" id="myinter">
+													<% for (var i = 0; i < myinter.length; i++) { %>
+													<li>
+														<input type="checkbox" id="<%= myinter[i] %>" name="<%= myinter[i] %>" value="<%= myinter[i] %>" checked ><label for="<%= myinter[i] %>"><%= myinter[i] %></label>
+													</li>
+													<% } %>
+											</ul>
+									</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label"></label>
+									<div class="col-lg-8" style="max-width:100%">
+										<input type="submit" class="btn btn-primary save_change" value="Save Changes">
+									</div>
+								</div>
+							</form>
+		
+							<!-- ... end Personal Information Form  -->
+						</div>
+					</div>
+
+					<div class='ui-block' id="edit_pswd" style="display: <% if (page == 'edit_pswd') { %> block <% } else {%> none <% } %>">
+								<div class='ui-block-title'>
+									<h6 class='title'>Change Password</h6>
+								</div>
+								<div class='ui-block-content'>
+				
+									
+									
+									<form class='form-horizontal' role='form' method='POST' action='/users/edit_profile?page=edit_pswd'>
+										<% if(err_msg_pass != ''){ %>
+											<p class='col-lg-8 control-label err_msg'>
+												<%= err_msg_pass %>
+											</p>
+											<% } %>
+											<% if(success_msg_pas != ''){ %>
+											<p class='col-lg-8 control-label success_msg'>
+												<%= success_msg_pas %>
+											</p>
+											<% } %>
+											<div class='form-group'>
+												<label class='col-lg-5 control-label'>Current Password</label>
+												<div class='col-lg-8' style='max-width: 100%;'>
+												  <input name='cur_password' class='form-control' type='password' Autocomplete>
+												</div>
+											  </div>
+											<div class='form-group'>
+											  <label class='col-lg-4 control-label'>Your New Password</label>
+											  <div class='col-lg-8' style='max-width: 100%;'>
+												<input name='password' class='form-control' type='password' pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" Autocomplete>
+											  </div>
+											</div>
+											<div class='form-group'>
+											  <label class='col-lg-4 control-label'>Confirm New Password</label>
+											  <div class='col-lg-8' style='max-width: 100%;'>
+												<input name='password2' class='form-control' type='password' Autocomplete>
+											  </div>
+											</div>
+											
+										
+											<div class='form-group'>
+											  <div class='col-md-12' style='max-width: 100%;'>
+												<input type='submit' class='btn btn-primary save_change' value='Save Changes'>
+											  </div>
+											</div>
+										  </form>
+									
+								</div>
+					</div>
+				
+					<div class='ui-block' id="map_setting" <% if (page == 'map_setting') { %> style="visibility: visible; transform: scale(1);" <% } else { %> style="visibility: hidden; transform: scale(0);" <% } %>">
+							<div class='ui-block-title'>
+								<h6 class='title'>Map Settings</h6>
+							</div>
+							<div class='ui-block-content'>
+								<div id='mapid' style='width: 100%; height: 400px; z-index: 20;'></div>
+								<div class='form-group'>
+										<label class='col-md-3 control-label'></label>
+										<div class='col-lg-8' style='max-width:100%'>
+											<input type='submit' class='btn btn-primary save_change' id='res_default' value='Reset to Default'>
+										</div>
+								</div>
+							</div>
+					</div>
+		</div>
+		<div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-1 col-sm-12 responsive-display-none">
+					<div class="ui-block">
+						<!-- Your Profile  -->
+						<div class="your-profile">
+							<div class="ui-block-title ui-block-title-small">
+								<h6 class="title">Your PROFILE</h6>
+							</div>
+
+							<div id="accordion" role="tablist" aria-multiselectable="true">
+								<div class="card">
+									<div class="card-header" role="tab" id="headingOne">
+										<h6 class="mb-0">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												Profile Settings
+												<svg class="olymp-dropdown-arrow-icon">
+													<use xlink:href="/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use>
+												</svg>
+											</a>
+										</h6>
+									</div>
+
+									<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+										<ul class="your-profile-menu">
+											<li>
+												<a href="#" onclick="change_content('pers_infos')">Personal Information</a>
+											</li>
+											<li>
+												<a href="#" onclick="change_content('edit_pswd')" >Change Password</a>
+											</li>
+											<li>
+												<a href="#" onclick="change_content('map_setting')" >Map Setting</a>
+											</li>
+										
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							
+						</div>
+						<!-- ... end Your Profile  -->
+					</div>					
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	const content_div = document.getElementById("content_div");
+
+	function hide_div()
+	{
+		$("#pers_infos").css("display", "none");
+		$("#edit_pswd").css("display", "none");
+		$("#notif_div").css("display", "none");
+		$("#map_setting").css("visibility", "hidden");
+		$("#map_setting").css('transform', 'scale(0)');
+	}
+
+	function change_content(etat)
+	{
+		hide_div();
+		if (etat == 'pers_infos')
+			$("#pers_infos").css("display", "block");
+		if (etat == 'edit_pswd')
+			$("#edit_pswd").css("display", "block");
+		if (etat == 'notif_div')
+			$("#notif_div").css("display", "block");
+		if (etat == 'map_setting')
+		{
+			$("#map_setting").css("visibility", "visible");
+			$("#map_setting").css('transform', 'scale(1)');
+		}
+	}
+
+</script>
+<script>
+								
+		const latitude = <%= users.latitude %>;
+		const longitude = <%= users.longitude %>;
+		const mymap = L.map('mapid').setView([latitude, longitude], 20);
+		var marker = L.marker([latitude, longitude]).addTo(mymap);
+		mymap.on('click', function(e){
+			lat = e.latlng.lat;
+			lng = e.latlng.lng;
+			move_marker(lat, lng);
+			$.ajax({
+				type: 'POST',
+				url: '/users/up_coords',
+				data: 'latitude=' + lat + '&longitude=' + lng + '&seated=2',
+				success: null,
+				error: null
+			});
+		});
+		
+		$('#res_default').click(function(){
+			geoFindMe();
+		});
+		marker.bindPopup('<b>Hello world!</b><br>I am here.').openPopup();
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		  maxZoom: 15,
+		  id: 'mapbox.streets'
+		}).addTo(mymap);
+
+		function move_marker(lat, lng)
+		{
+			mymap.removeLayer(marker);
+			marker = L.marker([lat, lng]).addTo(mymap);
+			marker.bindPopup('<b>Hello world!</b><br>I am here.').openPopup();
+		}
+
+		function success(position) 
+			{
+					const latitude  = position.coords.latitude;
+					const longitude = position.coords.longitude;
+					
+					$.ajax({
+							type: 'POST',
+							url: '/users/up_coords',
+							data: 'latitude=' + latitude + '&longitude=' + longitude + '&seated=1',
+							success: null,
+							error: null
+					});
+	
+					move_marker(latitude, longitude);
+			}
+			function error() 
+			{
+					$.ajax({
+							type: 'POST',
+							url: '/users/up_coords',
+							data: 'latitude=0&longitude=0&seated=1',
+							success: function (res){
+								move_marker(res[0], res[1]);
+							},
+							error: null
+					});
+			}
+			function geoFindMe() 
+			{
+					if (navigator.geolocation) 
+					{
+							navigator.geolocation.getCurrentPosition(success, error);
+							
+					}
+					else
+					{
+							alert('Geolocation is not supported by your browser');
+							$.ajax({
+									type: 'POST',
+									url: '/users/up_coords',
+									data: 'latitude=0&longitude=0&seated=1',
+									success: null,
+									error: null
+							});
+					}
+			}
+
+		////////////////////
+		///////// this part for select tags to add new elemnts to checkbox
+
+		function check_inter_if_exists(val){
+			var et = 1;
+			$('input[type="checkbox"]').each(function () {
+				if (this.value == val)
+					et = 0;
+			});
+			return (et);
+		}
+
+		$('#interests').change(function(){
+			if (check_inter_if_exists(this.value) == 1)
+				$('#myinter').append('<li><input type="checkbox" id="' + this.value + '" name="' + this.value + '" value="' + this.value + '" checked><label for="' + this.value + '">' + this.value + '</label></li>');
+			this.value = '';
+		});
+		(function ($) {
+			$(".profile-settings-open").on('click', function () {
+				$('.profile-settings-responsive').toggleClass('open');
+					return false
+			});
+		})(jQuery);
+</script>

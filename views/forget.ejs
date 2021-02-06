@@ -1,0 +1,28 @@
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="/img/signin-image.jpg" alt="sing up image"></figure>
+                <a href="/users/login" class="signup-image-link">I am already member</a>
+            </div>
+            <div class="signin-form">
+                <h2 class="form-title">Forget</h2>
+                <% if(error_msg != ''){ %>
+                <p class="err_msg"> <%= error_msg %> </p>
+                <% } %>
+                <% if(success_msg != ''){ %>
+                <p class="success_msg">  <%= success_msg %> </p>
+                <% } %>
+                <form method="POST" action="/users/forget" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="email" id ="email"  name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Reset Password" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

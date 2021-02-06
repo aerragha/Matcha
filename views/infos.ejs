@@ -1,0 +1,85 @@
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-form fill_profile">
+                <h2 class="form-title">Fill your profile</h2>
+                <% if(error_msg != ''){ %>
+                <p class="err_msg">
+                    <%= error_msg %>
+                </p>
+                <% } %>
+                <% if(success_msg != ''){ %>
+                <p class="success_msg">
+                    <%= success_msg %>
+                </p>
+                <% } %>
+                <form method="POST" action="/users/infos" class="register-form" id="login-form" encType="multipart/form-data">
+                    <div class="form-group">
+                        <label for="gender" class="fill_profile_label"> Gender :</label>
+                        <select id="gender" class="form-control" name="gender">
+                            <option value="" disabled selected>-- Select --</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex_pref" class="fill_profile_label"> Sexual preferences :</label>
+                        <select id="sex_pref" class="form-control" name="sex_pref">
+                            <option value="" disabled selected>-- Select --</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="everyone">Everyone</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="biography" class="fill_profile_label"> Biography :</label>
+                        <textarea id="biography" name="biography" class="form-control" required maxlength="150"><%= typeof biography != 'undefined' ? biography : '' %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" class="fill_profile_label"> Age :</label>
+                        <input type="number" max="100" min="12" name="age" id="age" class="form-control" required value="<%= typeof age != 'undefined' ? age : '' %>">
+                    </div>
+                    <label for="interests" class="fill_profile_label"> Interests :</label>
+                    <div class="containere">
+                        <select class="form-control" name="inter" id="interests">
+                                    <option value="" selected disabled>-- SELECT --</option>
+                                    <% for (var i = 0; i < interests.length; i++) { %>
+                                    <option value="<%= interests[i].interest %>"><%= interests[i].interest %></option>
+                                    <% } %>
+                        </select>
+                        <ul class="ks-cboxtags mt-3" id="myinter">
+                          <!-- <li><input type="checkbox" name="Vegan" id="checkboxOne" value="Vegan" checked><label for="checkboxOne">Vegan</label></li> -->
+                        </ul>
+                      </div>
+                    <div class="form-group">
+                            <label for="images" class="fill_profile_label"> Profile image:</label>
+                            <input type="file" name="prof_image" accept="image/*" class="form-control" id="images">
+                        </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Save info" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    ///////// this part for select tags to add new elemnts to checkbox
+
+		function check_inter_if_exists(val){
+			var et = 1;
+			$('input[type="checkbox"]').each(function () {
+				if (this.value == val)
+					et = 0;
+			});
+			return (et);
+		}
+
+		$('#interests').change(function(){
+			if (check_inter_if_exists(this.value) == 1)
+				$('#myinter').append('<li><input type="checkbox" id="' + this.value + '" name="' + this.value + '" value="' + this.value + '" checked><label for="' + this.value + '">' + this.value + '</label></li>');
+			this.value = '';
+		});
+</script>

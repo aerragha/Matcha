@@ -1,0 +1,37 @@
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="/img/signin-image.jpg" alt="sing up image"></figure>
+                <a href="/users/registre" class="signup-image-link">Create an account</a>
+            </div>
+            <div class="signin-form">
+                <h2 class="form-title">Sign in</h2>
+                <% if(error_msg != ''){ %>
+                <p class="err_msg"> <%= error_msg %> </p>
+                <% } %>
+                <% if(error != ''){ %>
+                    <p class="err_msg"> <%= error %> </p>
+                <% } %>
+                <% if(success_msg != ''){ %>
+                <p class="success_msg">  <%= success_msg %> </p>
+                <% } %>
+                <form method="POST" action="/users/login" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text"  name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" Autocomplete name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                        <a href="/users/forget" class="signup-image-link">Forget Password ?</a>
+                    </div>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

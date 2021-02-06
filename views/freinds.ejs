@@ -1,0 +1,45 @@
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block responsive-flex">
+                    <div class="ui-block-title">
+                        <div class="h6 title">Your Friends (<%= likeme.length %>)</div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Friends -->
+    
+    <div class="container">
+        <div class="row">
+            <% for (var i = 0; i < likeme.length; i++) { %>
+                <div class="col col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="ui-block">
+                                    <div class="friend-item">
+                                        <div class="friend-header-thumb">
+                                            <img src="/images/user_img/<%= likeme[i].image %>" alt="friend">
+                                        </div>
+                                        <div class="friend-item-content">
+                                            <div class="friend-avatar">
+                                                <div class="author-content">
+                                                    <a href="/users/profile/<%= likeme[i].username %>" class="h5 author-name">
+                                                        <%= likeme[i].firstname.toUpperCase() %>
+                                                        <%= likeme[i].lastname.toUpperCase() %>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            <% } %>
+        </div>
+    </div>
+    

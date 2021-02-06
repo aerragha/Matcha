@@ -1,0 +1,435 @@
+<div id="coord_loading" class="content">
+
+	<div class="pulse"></div>
+	<div class="pulse-center">
+		<img src="/images/user_img/<%= users.image %>" alt="Beautiful Face">
+	</div>
+
+</div>
+
+<!-- place of resopnsive -->
+
+<!-- <div id="loader-container">
+	<div id="row-loader"></div>
+</div> -->
+<div class="header-spacer header-spacer-small"></div>
+<div class="container home_div">
+	<div class="row">
+		<div id="content_div" class="col col-xl-8 order-xl-2 col-lg-8 order-lg-2 col-md-12 order-md-2 col-sm-12 order-sm-2 col-12 order-2">
+			<div class="ui-block" id="pers_infos">
+				<div class="ui-block-title">
+					<h6 class="title">Suggestions</h6>
+				</div>
+				<div class="ui-block-content sugg_div" id="sugg_div">
+					<div id="loader-container" class="content">
+						<div class="pulse"></div>
+						<div class="pulse-center">
+							<img src="/images/user_img/<%= users.image %>" alt="Beautiful Face">
+						</div>
+					</div>
+					<div id="list_sugg" class="row row_list">
+
+						<% if (results.length) { %>
+						<% for (var i = 0; i < results.length; i++) { %>
+						<div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 segitem">
+							<div class="ui-block">
+								<!-- Friend Item -->
+								<div class="friend-item">
+									<div class="friend-header-thumb">
+										<img src="/images/user_img/<%= results[i].image %>" alt="friend">
+									</div>
+									<div class="friend-item-content">
+										<div class="friend-avatar">
+											<div class="author-content">
+												<a href="/users/profile/<%= results[i].username %>" class="h5 author-name">
+													<%= results[i].firstname.toUpperCase() %>
+													<%= results[i].lastname.toUpperCase() %>
+												</a>
+											</div>
+										</div>
+										<div class="friend-count" data-swiper-parallax="-500">
+											<a href="#" class="friend-count-item">
+												<div class="h6">AGE</div>
+												<div class="title">
+													<%= results[i].age %>
+												</div>
+											</a>
+											<a href="#" class="friend-count-item">
+												<div class="h6">RATING</div>
+												<div class="title">
+													<%= results[i].rating %>/5</div>
+											</a>
+										</div>
+										<div class="swiper-container" data-slide="fade">
+											<div class="swiper-wrapper">
+												<div class="swiper-slide">
+													<div class="control-block-button" data-swiper-parallax="-100">
+														<span class="btn btn-control bg-blue">
+															<i class="fa fa-heart-o like" data-id="<%= results[i].id_user %>"></i>
+														</span>
+														<a href="/users/profile/<%= results[i].username %>">
+															<span class="btn btn-control bg-purple">
+																<i class="fas fa fa-eye"></i>
+															</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- ... end Friend Item -->
+							</div>
+						</div>
+						<% } %>
+						<% } else { %>
+						<p class="no_res">No Results Found!!</p>
+						<% } %>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col col-xl-4 order-xl-1 col-lg-4 order-lg-1 col-md-12 order-md-1 col-sm-12 order-sm-1 order-1">
+			<div class="ui-block">
+				<!-- Your Profile  -->
+				<div class="your-profile">
+					<div id="accordion" role="tablist" aria-multiselectable="true">
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<h6 class="mb-0">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										Search & Filtre
+										<svg class="olymp-dropdown-arrow-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use>
+										</svg>
+									</a>
+								</h6>
+							</div>
+
+							<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+								<ul class="your-profile-menu">
+									<li>
+										<label for="age_range">Age :</label>
+										<div class="row">
+											<div class="col-lg-10 col-sm-10 col-10 col-md-10">
+												<input id="age_range" type="range" class="custom-range search_fil" value="12" min="12" max="100">
+											</div>
+											<div class="col-lg-2 col-sm-2 col-2 col-md-2 txt_range">
+												<span id="txt_age">12</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<label for="rating_range">Rating :</label>
+										<div class="row">
+											<div class="col-lg-10 col-sm-10 col-10 col-md-10">
+												<input id="rating_range" type="range" class="custom-range search_fil" value="<%= users.rating %>" min="1"
+												 max="5">
+											</div>
+											<div class="col-lg-2 col-sm-2 col-2 col-md-2 txt_range">
+												<span id="txt_rating">
+													<%= users.rating %></span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<label for="location_range">Location : (Metre)</label>
+										<div class="row">
+											<div class="col-lg-10 col-sm-10 col-10 col-md-10">
+												<input id="location_range" type="range" class="custom-range search_fil" value="500" min="1" max="1000">
+											</div>
+											<div class="col-lg-2 col-sm-2 col-2 col-md-2 txt_range">
+												<span id="txt_location">500</span>
+											</div>
+										</div>
+									</li>
+									<li>
+										<label for="location_range">Interests :</label>
+										<div class="ui-select">
+											<select class="form-control search_fil" name="inter" id="interests">
+												<option value="" selected disabled>-- SELECT --</option>
+												<% for (var i = 0; i < interests.length; i++) { %>
+												<option value="<%= interests[i].interest %>">
+													<%= interests[i].interest %>
+												</option>
+												<% } %>
+											</select>
+											<ul class="ks-cboxtags mt-3" id="myinter">
+												<% for (var i = 0; i < myinter.length; i++) { %>
+												<li>
+													<input type="checkbox" id="<%= myinter[i] %>" class="search_fil" name="<%= myinter[i] %>" value="<%= myinter[i] %>"
+													 checked><label for="<%= myinter[i] %>">
+														<%= myinter[i] %></label>
+												</li>
+												<% } %>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<% if(users && users.seated == 1){ %>
+<script>
+	/////////// part of get positions
+	const coord_loading = document.getElementById('coord_loading');
+	function success(position) {
+		const latitude = position.coords.latitude;
+		const longitude = position.coords.longitude;
+		coord_loading.style.display = "none";
+		$.ajax({
+			type: 'POST',
+			url: '/users/up_coords',
+			data: 'latitude=' + latitude + '&longitude=' + longitude + '&seated=1',
+			success: null,
+			error: null
+		});
+	}
+	function error() {
+		coord_loading.style.display = "none";
+		$.ajax({
+			type: 'POST',
+			url: '/users/up_coords',
+			data: 'latitude=0&longitude=0&seated=1',
+			success: null,
+			error: null
+		});
+	}
+	function geoFindMe() {
+		const status = document.querySelector('#status');
+		if (navigator.geolocation) {
+			coord_loading.style.display = "block";
+			navigator.geolocation.getCurrentPosition(success, error);
+		}
+		else {
+			alert('Geolocation is not supported by your browser');
+			$.ajax({
+				type: 'POST',
+				url: '/users/up_coords',
+				data: 'latitude=0&longitude=0&seated=1',
+				success: null,
+				error: null
+			});
+		}
+	}
+	geoFindMe();
+</script>
+
+<% } %>
+
+<script>
+	var loader = document.getElementById("loader-container");
+	var list_sugg = document.getElementById('list_sugg');
+	var sugg_div = document.getElementById("sugg_div");
+	function showLoader() {
+		loader.style.display = "block"
+		list_sugg.style.display = "none";
+		sugg_div.classList.add('sugg_div');
+		setTimeout(function () { loader.style.display = "none"; sugg_div.classList.remove('sugg_div'); list_sugg.style.display = "flex"; }, 2000);
+	}
+	showLoader();
+	/// ///////////////////////////
+	//////////// this part for chnage value of range
+	$("#age_range").on('input propertychange', function () {
+		$("#txt_age").html(this.value);
+	});
+	$("#rating_range").on('input propertychange', function () {
+		$("#txt_rating").html(this.value);
+	});
+	$("#location_range").on('input propertychange', function () {
+		$("#txt_location").html(this.value);
+	});
+	//////////////////////
+	////////////// this part for like icooon
+
+	/////////////////// sockket like
+	function send_like_notif(id_user, message) {
+		const user_id_sess = <%= users.id_user %>;
+		const user_id_firstname = '<%= users.firstname %>';
+		const user_id_lastname = '<%= users.lastname %>';
+		const user_username = '<%= users.username %>';
+		const user_id_image = '<%= users.image %>';
+		try
+        {
+			socket.emit('like', {
+			id_user_from: user_id_sess,
+			id_user_to: id_user,
+			firstname: user_id_firstname,
+			lastname: user_id_lastname,
+			image: user_id_image,
+			username: user_username,
+			message: message
+		});
+    	}
+        catch(err)
+        {
+            console.log('Socket diconnected!');
+        }	
+		
+	}
+
+	function notif_me(id_user) {
+		$.ajax({
+			type: 'POST',
+			url: '/users/find_user',
+			data: 'id_user=' + id_user,
+			success: function(res)
+			{
+				if (res != 'Error')
+				{
+					$('.notif_list ul').prepend('<li> <div class="author-thumb"> <img src="/images/user_img/'+res.result.image+'" alt="author"> </div> <div class="notification-event"> <div><a href="/users/profile/' + res.result.username + '/views" class="h6 notification-friend">'+res.result.firstname + " " + res.result.lastname +'</a> Matched with you.<a href="#" class="notification-link"></a></div> <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18"> ' + res.mom + '</time></span> </div></li>');
+					var nbr = Number($('.nbr_notif').html()) + 1;
+					$('.nbr_notif').html(nbr);
+				}
+			},
+			error: null
+		});
+	}
+
+	function like() {
+		const likes = document.getElementsByClassName("like");
+		for (var i = 0; i < likes.length; i++) {
+			likes[i].addEventListener("click", function () {
+				var id_user = this.getAttribute('data-id');
+				if (this.classList == 'fa fa-heart-o like') {
+					$.ajax({
+						type: 'POST',
+						url: '/users/like',
+						data: 'id_user=' + id_user,
+						success: function (res) {
+							if (res == 'match') {
+								send_like_notif(id_user, 'matche');
+								notif_me(id_user);
+							}
+							else
+								send_like_notif(id_user, 'like');
+							load_suggs();
+						},
+						error: null
+					});
+					this.setAttribute('class', 'fa fa-heart like');
+					//this.classList = 'fa fa-heart like';
+				}
+			})
+		}
+	}
+
+	like();
+	/////////////////////////
+	////////////// this part for change date in suggestion div
+	function show_suggs(results) {
+		var ch = '';
+		if (results.length != 0) {
+			for (var i = 0; i < results.length; i++) {
+				ch += '<div class="col col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 segitem">';
+				ch += '<div class="ui-block">';
+				ch += '<div class="friend-item">';
+				ch += '<div class="friend-header-thumb">';
+				ch += '<img src="/images/user_img/' + results[i].image + '" alt="friend">';
+				ch += '</div>';
+				ch += '<div class="friend-item-content">';
+				ch += '<div class="friend-avatar">';
+				ch += '<div class="author-content">';
+				ch += '<a href="/users/profile/' + results[i].username + '" class="h5 author-name">' + results[i].firstname.toUpperCase() + ' ' + results[i].lastname.toUpperCase() + '</a>';
+				ch += '</div>';
+				ch += '</div>';
+				ch += '<div class="friend-count" data-swiper-parallax="-500">';
+				ch += '<a href="#" class="friend-count-item"><div class="h6">AGE</div><div class="title">' + results[i].age + '</div></a>';
+				ch += '<a href="#" class="friend-count-item"><div class="h6">RATING</div><div class="title">' + results[i].rating + '/5</div></a>';
+				ch += '</div>';
+				ch += '<div class="swiper-container" data-slide="fade">';
+				ch += '<div class="swiper-wrapper">';
+				ch += '<div class="swiper-slide">';
+				ch += '<div class="control-block-button" data-swiper-parallax="-100">';
+				ch += '<span class="btn btn-control bg-blue"><i class="fa fa-heart-o like" data-id="' + results[i].id_user + '"></i></span>';
+				ch += '<a href="/users/profile/' + results[i].username + '"><span class="btn btn-control bg-purple"><i class="fas fa fa-eye"></i></span></a>';
+				ch += '</div></div></div></div></div></div></div></div>';
+			}
+		}
+		else
+			ch += '<p class="no_res">No Results Found!!</p>'
+
+		$('#list_sugg').html(ch);
+		like();
+	}
+
+	function load_suggs() {
+		showLoader();
+		const age = $('#age_range').val();
+		const rating = $('#rating_range').val();
+		const distance = $('#location_range').val();
+		var inter = [];
+		$('input[type="checkbox"]:checked').each(function () {
+			inter.push($(this).val());
+		});
+		if (distance >= 0 && distance <= 1000) {
+			if (age >= 12 && age <= 100) {
+				if (rating >= 1 && rating <= 5) {
+					$.ajax({
+						type: 'POST',
+						url: '/',
+						data: 'age=' + age + '&rating=' + rating + '&distance=' + distance + '&inter=' + inter,
+						success: res => show_suggs(res),
+						error: null
+					})
+				}
+				else
+					alert('Make sure rating between 1 && 5');
+			}
+			else
+				alert('Make sure age between 12 && 100');
+		}
+		else
+			alert('Make sure distance between 0 && 1000m');
+	}
+
+	function get_sugges() {
+		var search_fil = document.getElementsByClassName('search_fil');
+		for (var i = 0; i < search_fil.length; i++) {
+			search_fil[i].addEventListener('change', function () {
+				load_suggs();
+			});
+		}
+		anime_sugg();
+	}
+	get_sugges();
+	///////////////// this part for anime th elemnts in div
+	function anime_sugg() {
+		const segitems = document.getElementsByClassName("segitem");
+
+		for (var i = 0; i < segitems.length; i++) {
+			segitems[i].style.animationDelay = i / 5 + "s";
+		}
+	}
+	anime_sugg();
+	///////// this part for select tags to add new elemnts to checkbox
+
+	function check_inter_if_exists(val) {
+		var et = 1;
+		$('input[type="checkbox"]').each(function () {
+			if (this.value == val)
+				et = 0;
+		});
+		return (et);
+	}
+
+	$('#interests').change(function () {
+		if (check_inter_if_exists(this.value) == 1) {
+			$('#myinter').append('<li><input type="checkbox" class="search_fil" id="' + this.value + '" name="' + this.value + '" value="' + this.value + '"><label for="' + this.value + '">' + this.value + '</label></li>');
+			get_sugges();
+		}
+	});
+
+
+
+
+</script>

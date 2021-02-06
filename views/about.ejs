@@ -1,0 +1,86 @@
+<div class="container">
+        <div class="row">
+            <div class="col col-xl-8 order-xl-2 col-lg-8 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Localisation</h6>
+                    </div>
+                    <div class="ui-block-content">
+                        <div id='mapid' style='width: 100%; height: 400px; z-index: 20;'></div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col col-xl-4 order-xl-1 col-lg-4 order-lg-1 col-md-12 order-md-2 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Personal Info</h6>
+                        
+                    </div>
+                    <div class="ui-block-content">
+    
+                        
+                        <!-- W-Personal-Info -->
+                        
+                        <ul class="widget w-personal-info">
+                            <li>
+                                <span class="title">About Me:</span>
+                                <span class="text"><%= result.biography %></span>
+                            </li>
+                            <li>
+                                <span class="title">First name:</span>
+                                <span class="text"><%= result.firstname %></span>
+                            </li>
+                            <li>
+                                <span class="title">Last name:</span>
+                                <span class="text"><%= result.lastname %></span>
+                            </li>
+                            <li>
+                                <span class="title">Username:</span>
+                                <span class="text"><%= result.username %></span>
+                            </li>
+                            <li>
+                                <span class="title">Age:</span>
+                                <span class="text"><%= result.age %></span>
+                            </li>
+                            <li>
+                                <span class="title">Location:</span>
+                                <span class="text"><%= result.latitude %> , <%= result.longitude %></span>
+                            </li>
+                            <li>
+                                <span class="title">Gender:</span>
+                                <span class="text"><%= result.gender %></span>
+                            </li>
+                            <li>
+                                <span class="title">Sexual preferences:</span>
+                                <span class="text"><%= result.sex_pref %></span>
+                            </li> 
+                            <li>
+                                <span class="title">Interests:</span> 
+                                <% for (var i = 0; i < inter.length; i++) { %>
+                                    
+                                    <% if (i != inter.length - 1) { %>
+                                        <span class="text"><%= inter[i] %>,</span>
+                                    <% } else {%>
+                                        <span class="text"><%= inter[i] %></span>
+                               <% } } %>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const latitude = <%= result.latitude %>;
+        const longitude = <%= result.longitude %>;
+        const mymap = L.map('mapid').setView([latitude, longitude], 20);
+        var marker = L.marker([latitude, longitude]).addTo(mymap);
+        marker.bindPopup('<b>Hello world!</b>').openPopup();
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 15,
+        id: 'mapbox.streets'
+        }).addTo(mymap);
+    </script>
+    

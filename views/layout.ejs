@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Matcha app</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+    <link rel="icon" type="image/png" href="/img/icon.png">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Main css -->
+	<% if(!users || users.completed == '0'){ %>
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<% } %>
+	<!-- Main Styles CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/main.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+	<% if(users && users.completed == '1'){ %>
+		<script>
+			const node_server = "localhost:1337";
+			var options = {secure: true, transports: [ 'xhr-polling', 'polling' ]};
+			if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) { //test for Firefox/x.x     or Firefox x.x (ignoring remaining digits);
+				socket = io.connect('http://' + node_server, options);
+			} else {
+				socket = io.connect('http://' + node_server);
+			}
+			//var socket = io.connect('http://' + node_server, {transports: ['polling']});
+			user_id = <%= users.id_user %>;
+				try {
+					socket.emit('login', {
+					id: user_id
+				});
+				//socket.close();
+				} catch (err) {     
+					console.log('Socket diconnected!');
+				}
+		</script>
+	<% } %>
+	<script>
+	
+	</script>
+</head>
+
+<body>
+
+    <!-- Header-BP -->
+
+    <% if(users ){ %>
+<header class="header" id="site-header">
+<% if(users.completed == '1'){ %>
+	<div class="page-title">
+		<a href="/"><h5 id="title_mat">Matcha</h5></a>
+	</div>
+	<% } %>
+	<div class="header-content-wrapper">
+	
+
+	<div class="control-block">
+		<% if(users.completed == '1'){ %>
+		<div class="control-icon more has-items">
+			<svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+			<div class="label-avatar bg-purple nbr_notif_msg"></div>
+
+			<div class="more-dropdown more-with-triangle triangle-top-center">
+				<div class="ui-block-title ui-block-title-small">
+					<h6 class="title">Chat / Messages</h6>
+					<a href="#" class="read_msg">Mark all as read</a>
+				
+				</div>
+
+				<div class="mCustomScrollbar message_notif"  data-mcs-theme="dark">
+					<ul class="notification-list chat-message">
+
+					</ul>
+				</div>
+
+				<a href="/users/chat" class="view-all bg-purple">View All Messages</a>
+			</div>
+		</div>
+
+		<div class="control-icon more has-items">
+			<svg class="olymp-thunder-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-thunder-icon"></use></svg>
+
+			<div class="label-avatar bg-primary nbr_notif"></div>
+
+			<div class="more-dropdown more-with-triangle triangle-top-center">
+				<div class="ui-block-title ui-block-title-small">
+					<h6 class="title">Notifications</h6>
+					<a href="#" class="read_notif">Mark all as read</a>
+				
+				</div>
+
+				<div class="mCustomScrollbar notif_list" data-mcs-theme="dark">
+					<ul class="notification-list">
+					</ul>
+				</div>
+
+				<a href="/users/notification" class="view-all bg-primary">View All Notifications</a>
+			</div>
+		</div>
+		<% } %>
+		<div class="author-page author vcard inline-items more">
+			<div class="author-thumb">
+				<img alt="author" src="/images/user_img/<%= users.image %>" class="avatar">
+				<span class="icon-status online"></span>
+				<div class="more-dropdown more-with-triangle">
+					<div class="mCustomScrollbar" data-mcs-theme="dark">
+						<div class="ui-block-title ui-block-title-small">
+							<h6 class="title">Your Account</h6>
+						</div>
+
+						<ul class="account-settings">
+							<li>
+								<a href="/users/profile">
+	
+									<i class="fa fa-user-circle user_ic"></i>
+
+									<span>View Profile</span> 
+								</a>
+							</li>	
+							<li>
+								<a href="/users/edit_profile">
+
+									<svg class="olymp-menu-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
+
+									<span>Profile Settings</span> 
+								</a>
+							</li>
+							<li>
+								<a id="logout" href="/users/logout">
+									<svg class="olymp-logout-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-logout-icon"></use></svg>
+
+									<span>Log Out</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<a href="/users/profile/<%= users.username%>" class="author-name fn">
+				<div class="author-title">
+					<%= users.firstname %>  <%= users.lastname %><svg class="olymp-dropdown-arrow-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+				</div>
+				<span class="author-subtitle"><%= users.username %></span>
+			</a>
+		</div>
+
+	</div>
+</div>
+
+</header>
+<header class="header header-responsive" id="site-header-responsive">
+	<div class="header-content-wrapper">
+		<ul class="nav nav-tabs mobile-app-tabs" role="tablist">
+
+				<% if(users.completed == '1'){ %>
+				<li class="nav-item">
+						<a class="nav-link" href="/">
+							<i class="fa fa-home home_ic" aria-hidden="true"></i>
+						</a>
+					</li>
+
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#chat" role="tab">
+					<div class="control-icon has-items">
+						<svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+						<div class="label-avatar bg-purple nbr_notif_msg"></div>
+					</div>
+				</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#notification" role="tab">
+					<div class="control-icon has-items">
+						<svg class="olymp-thunder-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-thunder-icon"></use></svg>
+						<div class="label-avatar bg-primary nbr_notif"></div>
+					</div>
+				</a>
+			</li>
+			<% } %>
+					 <div class="author-page author vcard inline-items more">
+					<div class="author-thumb">
+						<img alt="author" src="/images/user_img/<%= users.image %>" class="avatar">
+						<span class="icon-status online"></span>
+						<div class="more-dropdown more-with-triangle">
+							<div class="mCustomScrollbar" data-mcs-theme="dark">
+								<div class="ui-block-title ui-block-title-small">
+									<h6 class="title">Your Account</h6>
+								</div>
+	
+								<ul class="account-settings">
+									<li>
+										<a href="/users/profile">
+			
+											<i class="fa fa-user-circle user_ic"></i>	
+	
+			
+											<span>View Profile</span> 
+										</a>
+									</li>	
+									<li>
+										<a href="/users/edit_profile">
+	
+											<svg class="olymp-menu-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-menu-icon"></use></svg>
+	
+											<span>Profile Settings</span> 
+										</a>
+									</li>
+									<li>
+										<a href="/users/logout">
+											<svg class="olymp-logout-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-logout-icon"></use></svg>
+	
+											<span>Log Out</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+	
+						</div>
+					</div>
+				</div>
+		</ul>
+	</div>
+
+	<!-- Tab panes -->
+	<div class="tab-content tab-content-responsive">
+
+		<div class="tab-pane" id="chat" role="tabpanel">
+
+			<div class="mCustomScrollbar message_notif" data-mcs-theme="dark">
+				<div class="ui-block-title ui-block-title-small">
+					<h6 class="title">Chat / Messages</h6>
+					<a href="#" class="read_msg">Mark all as read</a>
+				
+				</div>
+
+				<ul class="notification-list chat-message">
+
+				</ul>
+
+				<a href="/users/chat" class="view-all bg-purple">View All Messages</a>
+			</div>
+
+		</div>
+
+		<div class="tab-pane" id="notification" role="tabpanel">
+
+			<div class="mCustomScrollbar notif_list" data-mcs-theme="dark">
+				<div class="ui-block-title ui-block-title-small">
+					<h6 class="title">Notifications</h6>
+					<a href="#" class="read_notif">Mark all as read</a>
+
+				</div>
+
+				<ul class="notification-list">
+					
+				</ul>
+
+				<a href="/users/notification" class="view-all bg-primary">View All Notifications</a>
+			</div>
+
+		</div>
+	</div>
+	<!-- ... end  Tab panes -->
+
+</header>
+<% } else{ %>
+    <header class="header" id="site-header">
+        <div class="page-title">
+            <h5>Matcha</h5>
+        </div>
+        <div class="control-block">
+                <div class="control-icon more has-items">
+                        <a class="btn_resp" href="/users/registre">Sign up</a>
+                    </div>
+            </div>
+            <div class="control-block">
+                    <div class="control-icon more has-items">
+                            <a class="btn_resp" href="/users/login">Sign in</a>
+                        </div>
+                </div>
+    </header>
+    <header class="header header-responsive header2" id="site-header-responsive">
+            <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+                    <a class="navbar-brand" href="#">Matcha</a>
+                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+              
+                    <div class="navbar-collapse collapse" id="navbarsExample06">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                                <a class="nav-link" href="/users/login">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                             <a class="nav-link" href="/users/registre">Sign up</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+    </header>
+    <% } %>
+<!-- 
+... end Header-BP -->
+<% if(!users || users.completed == '0'){ %>
+<div class="gradient">
+	<% } %>
+<%- body %>
+<% if(!users || users.completed == '0'){ %>
+</div>
+<% } %>
+  <!-- Site footer -->
+  <footer class="site-footer">
+	<div style="color: white; background-color:#3f4257" class="container">
+	  <div class="row">
+		<div class="col-md-8 col-sm-6 col-xs-12">
+		  <p style="color: white;"" class="copyright-text">Copyright &copy; 2019 Developed by Ait bamouh youssef and Erraghay ayoub
+		  </p>
+		</div>
+
+		<div class="col-md-4 col-sm-6 col-xs-12">
+		  <ul class="social-icons">
+			<li><a class="facebook" href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a></li>
+			<li><a class="twitter" href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a></li>
+			<li><a class="github" href="https://github.com" target="_blank"><i class="fa fa-github"></i></a></li>
+			<li><a class="linkedin" href="https://linkedin.com" target="_blank"><i class="fa fa-linkedin"></i></a></li>   
+		  </ul>
+		</div>
+	  </div>
+	</div>
+</footer>
+</body>
+<script src="/js/bootstrap.min.js"></script>
+
+<% if(users && users.seated == 0){ %>
+	<script>
+		$.ajax({
+            type: 'POST',
+            url: '/users/up_coords',
+            data: 'latitude=0&longitude=0&seated=1',
+            success: null,
+            error: null
+        });
+	</script>
+<% } %>
+<% if(users && users.completed == '1'){ %>
+	<script>
+			socket.on('new_msg',function(data){
+				
+				$('.message_notif ul').prepend('<li class="message-unread"><div class="author-thumb"><img src="/images/user_img/'+data.image + '" alt="author"></div><p><div class="notification-event"><a href="#" class="h6 notification-friend">'+ data.firstname+ " " + data.lastname +'</a><span class="chat-message-item">'+data.message+'</span><span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">'+data.moments+'</time></span></div><span class="notification-icon"><svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg></span></li>');
+			   var nbr = Number($('.nbr_notif_msg').html()) + 1;
+			   $('.nbr_notif_msg').html(nbr);           
+		   });
+		   
+		   $('.read_msg').click(function(){
+			   $('.nbr_notif_msg').html('0');
+			   $.ajax({
+				   type: 'POST',
+				   url: '/users/clear_notif_msg',
+				   data: '',
+				   success: function(res){
+					   $('.message_notif ul').html('');
+				   },
+				   error: null
+			   });
+		   });
+		   
+		   function show_notif_msg(res)
+		   {
+			   var messages = res.messages;
+			   var moments = res.moments;
+			   $('.nbr_notif_msg').html(messages.length);
+			   var ch = '';
+			   for (var i = 0; i < messages.length; i++)
+			   {
+				   ch += '<li class="message-unread"><div class="author-thumb"><img class="view_img" src="/images/user_img/'+messages[i].image+'" alt="author"></div><p><div class="notification-event"><a href="/users/chat" class="h6 notification-friend">'+ messages[i].firstname +' ' + messages[i].lastname + '</a><span class="chat-message-item">'+ messages[i].message +'</span><span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">' + moments[i] + '</time></span></div>	<span class="notification-icon"><svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg></span></li>';
+			   }
+			   $('.message_notif ul').prepend(ch);
+		   }
+   
+		   function get_notif_chat()
+		   {
+			   $.ajax({
+				   type: 'POST',
+				   url: '/users/get_notif_msg',
+				   data: '',
+				   success: res => show_notif_msg(res),
+				   error: null
+			   });
+		   }
+		   get_notif_chat();
+		   /*---------------------*/
+			socket.on('new_view', function(data){
+				
+				   $('.notif_list ul').prepend('<li> <div class="author-thumb"> <img src="/images/user_img/'+data.image+'" alt="author"> </div> <div class="notification-event"> <div><a href="/users/profile/' + data.username + '" class="h6 notification-friend">'+data.firstname + " " + data.lastname +'</a> has seen your profile.<a href="#" class="notification-link"> </a></div> <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">'+data.moments+'</time></span> </div></li>');
+				   var nbr = Number($('.nbr_notif').html()) + 1;
+				   $('.nbr_notif').html(nbr);    
+				});
+   
+		   function show_notif(res)
+		   {
+			   var notifs = res.notifs;
+			   var moments = res.moments;
+			   $('.nbr_notif').html(notifs.length);
+			   var ch = '';
+			   for (var i = 0; i < notifs.length; i++)
+			   {
+				   ch += '<li> <div class="author-thumb"> <img src="/images/user_img/'+notifs[i].image+'" alt="author"> </div> <div class="notification-event"> <div><a href="/users/profile/' + notifs[i].username + '" class="h6 notification-friend">'+notifs[i].firstname + " " + notifs[i].lastname +'</a> ' + notifs[i].message + '<a href="#" class="notification-link"> </a></div> <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">'+moments[i]+'</time></span> </div> </li>';
+			   }
+			   $('.notif_list ul').prepend(ch);
+		   }
+   
+		   function get_notif()
+		   {
+			   $.ajax({
+				   type: 'POST',
+				   url: '/users/get_notif',
+				   data: '',
+				   success: res => show_notif(res),
+				   error: null
+			   });
+		   }
+		   $('.read_notif').click(function(){
+			   $('.nbr_notif').html('0');
+			   $.ajax({
+				   type: 'POST',
+				   url: '/users/clear_notif',
+				   data: '',
+				   success: function(res){
+					   $('.notif_list ul').html('');
+				   },
+				   error: null
+			   });
+		   });
+		   get_notif();
+		   
+		   socket.on('new_like',function(data){
+			   var msg = 'like your profile.';
+				if (data.message == 'matche')
+					msg = 'Matched with you.';
+				else if (data.message == 'unlike')
+					msg = 'Unliked your profile.';
+				$('.notif_list ul').prepend('<li> <div class="author-thumb"> <img src="/images/user_img/'+data.image+'" alt="author"> </div> <div class="notification-event"> <div><a href="/users/profile/' + data.username + '" class="h6 notification-friend">'+data.firstname + " " + data.lastname +'</a> ' + msg + '<a href="#" class="notification-link"></a></div> <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">'+data.moments+'</time></span> </div></li>');
+				var nbr = Number($('.nbr_notif').html()) + 1;
+				$('.nbr_notif').html(nbr);   
+		   });
+
+		/// lougout socket
+		   $('#logout').click(function(){
+			 var user_id = <%= users.id_user %>;
+			 try
+			 {
+					socket.emit('logout', {
+						id: user_id
+					});
+			 }
+			 catch(err)
+			 {
+				 console.log('Socket diconnected!');
+			 }
+		   });
+		
+	   </script>
+	<% } %>
+</html>

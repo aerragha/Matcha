@@ -1,0 +1,173 @@
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="ui-block responsive-flex">
+                <div class="ui-block-title">
+                    <div class="h6 title"><%= result.username %>’s Photo Gallery</div>
+                    <% if(images.length < 5 && users.username == result.username){ %>
+                        <div class="block-btn align-right">
+                            <a href="#" data-toggle="modal" data-target="#add-from-my-photo" class="btn btn-primary btn-md-2">Add Photos</a>
+                        </div>
+                        <% } else if (users.username == result.username) { %>
+                            <p class="err_msg">max 5 images</p>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="photo-page" role="tabpanel">
+
+                    <div class="photo-album-wrapper">  
+                        <% for (var i = 0; i < images.length; i++) { %>        
+                        <div class="photo-item col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                            <img style="height: 360px; object-fit:cover" src="/images/post_img/<%= images[i].image %>" alt="photo">
+                            <div class="overlay overlay-dark"></div>
+                            <% if (i != 0 && users.username == result.username) { %>
+                            <div class="more">
+                                <a><svg  class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                                </a>
+                                
+                                <ul class="dropdown">
+                                    <li>
+                                        <a href="#"  class="alert-trigger" data-id="<%= images[i].id_img %>" data-action="remove">Delete</a>
+                                        <div class="alert" role="alert" data-id="<%= images[i].id_img %>">
+                                            <form method="POST" action="/users/profile/<%= result.username %>/delete">
+                                                <div class="alert-container">
+                                                  <p>Are you sure you want to delete this image?</p>
+                                                  <footer class="buttons">
+                                                    <input type="submit" value="Yes">
+                                                    <input class="alert-cancel" type="submit" value="No">
+                                                  </footer>
+                                                  <a href="#" class="alert-close img-replace">&times;</a>
+                                                </div>
+                                                <input type="hidden" name="del_img" value="<%= images[i].id_img %>">
+                                            </form>
+                                              </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <% } %>
+                            <!-- <a href="#" class="post-add-icon inline-items">
+                                <svg class="olymp-heart-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use></svg>
+                                <span>15</span>
+                            </a> -->
+                            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v2" class="full-block"></a>
+                            <div class="content">
+                                <time class="published" datetime="<%= images[i].date %>"><%= moments[i] %></time>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Window-popup Choose from my Photo -->
+
+<div class="modal fade" id="add-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+    <div class="modal-dialog window-popup choose-from-my-photo" role="document">
+
+        <div class="modal-content">
+            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                <svg class="olymp-close-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+            </a>
+            <div class="modal-header">
+                <h6 class="title">Choose from My Photos</h6>
+            </div>
+
+            <div class="modal-body">
+                    <p class="err_msg" id="err_msg2">
+                        </p>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                        <form method="POST" action="/users/profile/<%= result.username %>/addPost" encType="multipart/form-data">
+                            <div id="add" class="modal-body">
+                                    <a href="#" class="upload-photo-item">
+                                    <svg class="olymp-computer-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+                                    <input type="file" style="display:none" id="image" name="add_image" accept="image/*" multiple>
+                                    <h6>Upload Photo</h6>
+                                    <span>Browse your computer.</span>
+                                </a>
+                                </div>
+                                
+                             
+                            <!-- <button type="button" class="btn btn-primary btn-lg btn-block">Upload image</button> -->
+                        <a href="#" class="btn btn-secondary btn-lg btn--half-width" data-dismiss="modal" aria-label="Close">Cancel</a>
+                        <input type="submit" name="save_img" id="add_img" class="btn btn-primary btn-lg btn--half-width" value="Confirm Photo" />
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+      add.addEventListener('click', () => {
+        image.click();
+    });
+    function check_image_2()
+    {
+        var err_msg = document.getElementById("err_msg2");
+        var file = $("#image");
+        var ext = file.val().split('.').pop().toLowerCase();
+        if (file.val() != "")
+        {   
+            if (extens.indexOf(ext) > -1)
+            {
+                const image = file.get(0).files;
+                if (image[0].size < 2000000)
+                    return (1);
+                else
+                    err_msg.innerHTML = "The Image is too big!";
+            }
+            else
+                err_msg.innerHTML = "Please upload an image!";
+        }
+        else
+            err_msg.innerHTML = "No image uploaded!!";
+        return (0);
+    }
+
+    $(document).ready(function()
+    {
+        $("#add_img").click(function(e){
+            if (check_image_2() == 0)
+            {
+                e.preventDefault();
+            }
+        });
+    });
+    /*------Popup delete-----------*/
+
+
+    const del = document.getElementsByClassName("alert-trigger");
+
+    for (var i = 0; i < del.length; i++)
+    {
+        del[i].addEventListener("click", function(){
+            var id = this.getAttribute("data-id");
+            $("div[data-id=" + id + "]").addClass("is-visible");
+            $(".alert-close, .alert-cancel").on("click", function(e){
+                e.preventDefault();
+                $("div[data-id=" + id + "]").removeClass("is-visible");
+            });
+        });
+    }
+
+    $(".alert-close, .alert-cancel").on("click", e => {
+        e.preventDefault();
+        $(".alert").removeClass("is-visible");
+    });
+
+</script>

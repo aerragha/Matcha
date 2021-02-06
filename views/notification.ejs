@@ -1,0 +1,39 @@
+<div class="header-spacer header-spacer-small"></div>
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+				<h1>Your Notifications</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+        <div class="row">
+    <div id="content_div" class="col col-xl-12 order-xl-2 col-lg-12 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class='ui-block'>
+                    <div class='ui-block-title'>
+                        <h6 class='title'>Notifications</h6></div>
+    
+                    
+                    <ul class='notification-list'>
+                        <% for (var i = 0; i < notifs.length; i++) { %> 
+                        <li>
+                            <div class='author-thumb'>
+                                <img src='/images/user_img/<%= notifs[i].image %>' alt='author'>
+                            </div>
+                            <div class='notification-event'>
+                                <a href='#' class='h6 notification-friend'><%= notifs[i].firstname %> <%= notifs[i].lastname %></a> <%= notifs[i].message %>
+                                <span class='notification-date'><time class='entry-date updated' datetime='2004-07-24T18:18'><%= moments[i] %></time></span>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul> 
+                </div>
+    </div>
+        </div>
+</div>

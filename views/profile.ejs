@@ -1,0 +1,371 @@
+<div class="container">
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="top-header">
+                        <div class="top-header-thumb">
+                            <img src="/img/header.jpg" alt="nature">
+                        </div>
+                        <div class="profile-section">
+                            <div class="row">
+                                <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+                                    <ul class="profile-menu">
+                                    <li>
+                                         <a href="/users/profile/<%= result.username %>/about">About</a>
+                                    </li>
+                                        <li>
+                                            <a href="/users/profile/<%= result.username %>/photos">Photos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
+                                    <ul class="profile-menu">
+                                            <% if(users.username == result.username){ %>
+                                                <li>
+                                                    <a href="/users/profile/<%= result.username %>/freinds">Friends</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/users/profile/<%= result.username %>/views">Views</a>
+                                                </li>
+                                            <% } %>
+                                        
+                                            <% if(users.username != result.username){ %>
+                                                <li>
+                                                
+                                            <div class="more">
+                                                <svg class="olymp-three-dots-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+                                                <ul class="more-dropdown more-with-triangle">
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#report-profile">Report Account</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#block-profile">Block Account</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    <% } %>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="control-block-button">
+                            <% if(users.username == result.username){ %>
+                                <a href="/users/chat" class="btn btn-control bg-purple">
+                                    <svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+                                </a>
+    
+                                <div class="btn btn-control bg-primary more">
+                                    <svg class="olymp-settings-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+    
+                                    <ul class="more-dropdown more-with-triangle triangle-bottom-right">
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#choose-from-my-photo">Update Profile Photo</a>
+                                        </li>
+                                        <li>
+                                            <a href="/users/edit_profile">Account Settings</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <% } else { %>
+                                <a href="#" class="btn btn-control bg-purple">
+                                    <% if(nb == 0) { %>
+                                        <i class="fa fa-heart-o like" data-id="<%= result.id_user %>"></i>
+                                    <% } else { %>
+                                        <i class="fa fa-heart like" data-id="<%= result.id_user %>"></i>
+                                    <% } %>
+                                </a>
+                                <!-- need to check if user matchez to can chat with him -->
+                                <% if (matche == 'OK') { %>
+                                    <a href="/users/chat" class="btn btn-control bg-primary">
+                                        <svg class="olymp-chat---messages-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+                                    </a>
+                                <% } %>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="top-header-author">
+                            <a href="/users/profile/<%= result.username %>/about" class="author-thumb">
+                                <img src="/images/user_img/<%= result.image %>"  alt="nature">
+                            </a>
+                            <div class="author-content">
+                                <p data-id="" class="h4 author-name"><%= result.firstname %> <%= result.lastname %></p>
+                            </div>
+                            
+                            <div class="stars" id="rating-stars">
+                                <% for (var i = 0; i < result.rating; i++) { %>
+                                    <label aria-label="first-star" class="star-label" for="rate-1"><i class="rate-icon star-icon fa fa-star text-warning"></i></label>
+                                <% } %>
+                                <% for (var i = 0; i < 5 - result.rating; i++) { %>
+                                    <label aria-label="first-star" class="star-label" for="rate-1"><i class="rate-icon star-icon fa fa-star"></i></label>
+                                <% } %>
+                            </div>
+                               <% if(users.username != result.username){ %>
+                            <% if(times == 'Invalid date') { %>
+                               <p class="online_">online</p>
+                               <span class="icon_online"></span>
+                           <% }  %>
+                           <% if(times != 'Invalid date') { %>
+                               <p ><%= times %></p>
+                               <span class="ofline"></span>
+                           <% } } %>
+                        </div>
+                        <span style="display: none;" id="id_user"><%= result.id_user %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!-- Window-popup Choose from my Photo -->
+    
+    <div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+        <div class="modal-dialog window-popup choose-from-my-photo" role="document">
+    
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Choose from My Photos</h6>
+                </div>
+    
+                <div class="modal-body">
+                        <p class="err_msg" id="err_msg">
+                            </p>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                            <form method="POST" action="/users/profile/<%= result.username %>/addImg" encType="multipart/form-data">
+                                <div id="update" class="modal-body">
+                                        <a href="#" class="upload-photo-item">
+                                        <svg class="olymp-computer-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+                                        <input type="file" style="display:none" id="file" name="image" accept="image/*">
+                                        <h6>Upload Photo</h6>
+                                        <span>Browse your computer.</span>
+                                    </a>
+                                    </div>
+                                    
+                                 
+                                <!-- <button type="button" class="btn btn-primary btn-lg btn-block">Upload image</button> -->
+                            <a href="#" class="btn btn-secondary btn-lg btn--half-width" data-dismiss="modal" aria-label="Close">Cancel</a>
+                            <input type="submit" name="signin" id="save_img" class="btn btn-primary btn-lg btn--half-width" value="Confirm Photo" />
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    
+    <div class="modal fade" id="block-profile" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+            <div class="modal-dialog window-popup choose-from-my-photo" role="document">
+        
+                <div class="modal-content block_report_tab">
+                    <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                        <svg class="olymp-close-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                    </a>
+                    <div class="modal-header">
+                        <h6 class="title">Are you sure to block this Account?</h6>
+                    </div>
+        
+                    <div class="modal-body">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                                <form method="POST" action="/users/profile/<%= result.username %>/block" encType="multipart/form-data">
+                                <a href="#" class="btn btn-secondary btn-lg btn--half-width" data-dismiss="modal" aria-label="Close">Cancel</a>
+                                <input type="submit" name="signin" id="save_img" class="btn btn-primary btn-lg btn--half-width" value="Confirm" />
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        <div class="modal fade" id="report-profile" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+                <div class="modal-dialog window-popup choose-from-my-photo" role="document">
+            
+                    <div class="modal-content block_report_tab">
+                        <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                            <svg class="olymp-close-icon"><use xlink:href="/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                        </a>
+                        <div class="modal-header">
+                            <h6 class="title">Are you sure to report this Account?</h6>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                                    <form method="POST" action="/users/profile/<%= result.username %>/report" encType="multipart/form-data">
+                                    <a href="#" class="btn btn-secondary btn-lg btn--half-width" data-dismiss="modal" aria-label="Close">Cancel</a>
+                                    <input type="submit" name="signin" id="save_img" class="btn btn-primary btn-lg btn--half-width" value="Confirm" />
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+    <script>
+        update.addEventListener('click', () => {
+            file.click();
+        });
+        const extens = ["png", "jpg", "jpeg", "gif"];
+        function check_image()
+        {
+            var err_msg = document.getElementById("err_msg");
+            var file = $("#file");
+            var ext = file.val().split('.').pop().toLowerCase();
+            if (file.val() != "")
+            {   
+                if (extens.indexOf(ext) > -1)
+                {
+                    const image = file.get(0).files;
+                    if (image[0].size < 2000000)
+                        return (1);
+                    else
+                        // alert("The Image is too big!");
+                        err_msg.innerHTML = "The Image is too big!";
+                }
+                else
+                err_msg.innerHTML = "Please upload an image!";
+            }
+            else
+            err_msg.innerHTML = "No image uploaded!!";
+            return (0);
+        }
+        
+
+
+        $(document).ready(function()
+        {
+            $("#save_img").click(function(e){
+                if (check_image() == 0)
+                {
+                    e.preventDefault();
+                }
+            });
+
+            const user_id_sess = <%= users.id_user %>;
+            const user_id_firstname = '<%= users.firstname %>';
+            const user_id_lastname = '<%= users.lastname %>';
+            const user_username = '<%= users.username %>';
+            const user_id_image = '<%= users.image %>';
+            prof_user_id = $('#id_user').html();
+            
+            if (user_id_sess != prof_user_id)
+            {
+                try
+                {
+                    socket.emit('view', {
+                        id_user: user_id_sess,
+                        id_prof: prof_user_id,
+                        firstname: user_id_firstname,
+                        lastname: user_id_lastname,
+                        image: user_id_image,
+                        username: user_username
+                    });
+                }
+                catch(err)
+                {
+                    console.log('Socket diconnected!');
+                }
+            }
+            
+            function send_like_notif(id_user, message) {
+                try {
+                    socket.emit('like', {
+                    id_user_from: user_id_sess,
+                    id_user_to: id_user,
+                    firstname: user_id_firstname,
+                    lastname: user_id_lastname,
+                    image: user_id_image,
+                    username: user_username,
+                    message: message
+                });
+                } catch (err) {
+                    console.log('Socket diconnected!');
+                }
+	        }
+
+            function notif_me(id_user) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/find_user',
+                    data: 'id_user=' + id_user,
+                    success: function(res)
+                    {
+                        if (res != 'Error')
+                        {
+                            $('.notif_list ul').prepend('<li> <div class="author-thumb"> <img src="/images/user_img/'+res.result.image+'" alt="author"> </div> <div class="notification-event"> <div><a href="/users/profile/' + res.result.username + '/views" class="h6 notification-friend">'+res.result.firstname + " " + res.result.lastname +'</a> Matched with you.<a href="#" class="notification-link"></a></div> <span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18"> ' + res.mom + '</time></span> </div></li>');
+                            var nbr = Number($('.nbr_notif').html()) + 1;
+                            $('.nbr_notif').html(nbr);
+                        }
+                    },
+                    error: null
+                });
+            }
+
+            function like() {
+            const likes = document.getElementsByClassName("like");
+            for (var i = 0; i < likes.length; i++) {
+                likes[i].addEventListener("click", function () {
+                    var id_user = this.getAttribute('data-id');
+                    if (this.classList == 'fa fa-heart-o like') {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/users/like',
+                            data: 'id_user=' + id_user,
+                            success: function (res) {
+                                if (res == 'match') {
+                                    send_like_notif(id_user, 'matche');
+                                    notif_me(id_user);
+                                }
+                                else
+                                    send_like_notif(id_user, 'like');
+						    },
+                            error: null
+                        });
+                        this.setAttribute('class', 'fa fa-heart like');
+                        //this.classList = 'fa fa-heart like';
+                    }
+                    else if (this.classList == 'fa fa-heart like')
+                    {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/users/unlike',
+                            data: 'id_user=' + id_user,
+                            success: function(res){
+                                send_like_notif(id_user, 'unlike')
+                            },
+                            error: null
+                        });
+                        this.setAttribute('class', 'fa fa-heart-o like');
+                        //this.classList = 'fa fa-heart-o like';
+                    }	
+                })
+            }
+        }
+        like();
+        });
+
+        
+       
+    </script>
+
+    <%  if (page == 'about') { %>
+        <% include ./about %>
+    <% } else if (page == 'photos') { %>
+        <% include ./photos %>
+    <% } else if (page == 'freinds') { %>
+        <% include ./freinds %>
+    <% } else if (page == 'views') { %>
+        <% include ./views %>
+    <% } else { %>
+    <% include ./photos %>
+    <% } %>

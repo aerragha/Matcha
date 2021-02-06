@@ -1,0 +1,313 @@
+<div class="header-spacer header-spacer-small"></div>
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+					<h1>Your Account Dashboard</h1>
+					<p>Welcome to your account dashboard! Here you’ll find everything you need to change your profile
+	information, settings, read notifications and requests, view your latest messages, change your pasword and much
+	more! Also you can create or manage your own favourite page, have fun!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ <% if(results.length) { %>
+<div class="container">
+	<div class="row">
+<div id="content_div" class="col col-xl-12 order-xl-2 col-lg-12 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class='ui-block'>
+             
+        
+                    <div id='frame'>
+                        <div id='sidepanel'>
+                            <div id='profile'>
+                                <div class='wrap'>
+                                    <img id='profile-img' src='/images/user_img/<%= users.image %>' class='online' alt='' />
+                                    <p id ="username"><%= users.firstname %> <%= users.lastname %></p>
+                                </div>
+                            </div>
+                            <div id='contacts'>
+                                <ul>
+                                        <% for (var i = 0; i < results.length; i++) { %>        
+                                    <li data-to="<%= results[i].id_user %>" data-time="<%= moments[i] %>"  data-image="/images/user_img/<%= results[i].image %>" data-name  = "<%= results[i].firstname %> <%= results[i].lastname %>" class='contact'>
+                                        <div class='wrap'>
+                                            <% if(results[i].online == 'Y') { %>
+                                            <span id="logged_<%= results[i].id_user %>" class='contact-status online logout_<%= results[i].id_user %>'></span>
+                                            <% } %>
+                                            <% if(results[i].online == 'N')  { %>
+                                            <span  id="logged_<%= results[i].id_user %>" class='contact-status busy logged_<%= results[i].id_user %>'></span>
+                                            <% } %>
+                                            <img src='/images/user_img/<%= results[i].image %>' alt='' />
+                                            <div class='meta'>
+                                                <p class='name'><%= results[i].firstname %> <%= results[i].lastname %>
+                                                    <% if(results[i].time == null) { %>
+                                                    <em id="time_<%= results[i].id_user %>"  class="moment online_">online</em>
+                                                    <% }  %>
+                                                    <% if(results[i].time !== null)  { %>
+                                                        <em id="time_<%= results[i].id_user %>" class="moment"><%= moments[i] %></em>
+                                                    <% } %>
+                                                </p>
+                                                <p id="msg_<%= results[i].id_user %>" class="preview"></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class='content'>
+                                <div class='contact-profile'>
+                                    <img id="image" src='/images/user_img/<%= results[0].image %>' alt='' />
+                                    <p id="first"><%= results[0].firstname %> <%= results[0].lastname %></p>
+                                    <% if(results[0].time == null) { %>
+                                        <p id="date_<%= results[0].id_user %>"  class="online_" style="float: right;font-size: 12px;padding-right: 12px;">online</p>
+                                        <% }  %>
+                                        <% if(results[0].time !== null)  { %>
+                                        <p id="date_<%= results[0].id_user %>"  style="float: right;font-size: 12px;color: #b7b7b7;padding-right: 12px;"><%= moments[0] %></p>
+                                            <% } %>
+                                </div>
+                                <div id="message"  class='messages'>
+                                    <ul id="list_msg">
+                                        <% for (var i = 0; i < messages.length; i++) { %>  
+                                            <% if (messages[i].from_user_id == users.id_user && messages[i].to_user_id == results[0].id_user) { %>      
+                                        <li class='replies'>
+                                            <p><%= messages[i].message.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#039;/g, "'"); %></p>
+                                        </li>
+                                        <% } else if (messages[i].from_user_id == results[0].id_user) { %>
+                                        <li  class='sent'>
+                                            <p><%= messages[i].message.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#039;/g, "'"); %></p>
+                                        </li>
+                                        <% } } %>
+                                    </ul>
+                                </div>
+                            <div class='message-input'>
+                                <div class='wrap'>
+                                <input id="msg" type='text' placeholder='Write your message...' />
+                                <button id="submit" class='submit'><i class='fa fa-paper-plane' aria-hidden='true'></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        
+</div>
+        <script>
+
+               var chat_list = document.getElementsByClassName("contact");
+                var toUserid = <%= results[0].id_user %>;
+                var times = document.getElementById("date_"+toUserid);
+                var date_time = document.getElementById("time_"+toUserid);
+                var tosocket_id = '<%= results[0].socket_id %>';
+                    for (var i = 0; i < chat_list.length; i++){
+                        chat_list[i].addEventListener("click", function(){
+                            var id_name = this.getAttribute("data-name");
+                            var id_image = this.getAttribute("data-image");
+                            var name =   document.getElementById("first");
+                            date_time = document.getElementById("time_"+toUserid);
+                            var image = document.getElementById("image");
+                            toUserid = this.getAttribute("data-to");
+                            date_time = document.getElementById("time_"+toUserid);
+                            times.id = "date_"+toUserid;
+                            image.src = id_image;
+                            name.innerHTML = id_name;
+                            if(date_time != 'Invalid date'){
+                                times.innerHTML = date_time.innerHTML;
+                            }
+                            else{
+                                times.innerHTML = '';
+                            }
+                            $.ajax({
+                                type: 'POST',
+                                url: '/users/get_msg',
+                                data: 'toUserId=' + toUserid,
+                                success: function(res){
+                                    show_msg(res.results);
+                                },
+                                error: null
+                                });
+                        });
+                    }
+                  
+                    function show_msg(results){
+                        var id_user = <%= users.id_user %>;
+                        var ch = '<ul>';
+                        for (var i = 0; i < results.length; i++)
+                        {
+                            
+                            if (results[i].from_user_id == id_user && results[i].to_user_id == toUserid)
+                            {
+                                ch += '<li class="replies">';
+                                ch += '<p>' +  results[i].message + '</p>';
+                                ch += '</li>';
+                            }
+                            else if (results[i].from_user_id == toUserid)
+                            {
+                                ch += '<li class="sent">';
+                                ch += '<p>' +  results[i].message + '</p>';
+                                ch += '</li>';
+                            }
+                        }
+                        ch += '</ul>';
+                        $('#message').html(ch);
+                    }
+                    
+                    socket.on('user_logged', function(data){ 
+                        if(($('#logged_'+ data.id)).find('.busy')){
+                            $('#logged_'+ data.id).removeClass('busy');
+                            $('#logged_'+ data.id).addClass('online');
+                            $('#time_' + data.id).html('online').css('color','#2ecc71');
+                            $('#date_' + data.id).html('online').css('color','#2ecc71');
+                        }
+                    });
+
+                    var username  = document.getElementById("username");
+                    var message =    document.getElementById("msg");
+                    var send 	  = document.getElementById("submit");
+  
+
+                   send.addEventListener('click',function(){
+                            if (htmlspecialchars(message.value).trim() != '')
+                            {
+                                try
+                                {
+                                    socket.emit('message',{
+                                    id_user: <%= users.id_user %>,
+                                    firstname: '<%= users.firstname %>',
+                                    lastname: '<%= users.lastname %>',
+                                    image: '<%= users.image %>',
+                                    toUserId: toUserid,
+                                    message:htmlspecialchars(message.value).trim()
+                                });
+                                }
+                                catch(err)
+                                {
+                                    console.log('Socket diconnected!');
+                                }
+                                
+                            }
+                            else
+                                alert('no input!');
+                        });
+                    $(window).on('keydown', function(e) {
+                      if (e.which == 13) {
+                        try
+                        {
+                            socket.emit('message',{
+                            id_user: <%= users.id_user %>,
+                                firstname: '<%= users.firstname %>',
+                                lastname: '<%= users.lastname %>',
+                                image: '<%=users.image %>',
+                                toUserId: toUserid,
+                                message:htmlspecialchars(message.value).trim()
+                        });
+                        }
+                        catch(err)
+                        {
+                            console.log('Socket diconnected!');
+                        }
+                        return false;
+                      }
+                    });
+                    message.addEventListener('input',function(){
+                        if (this.value != "")
+                        {
+                            try
+                            {
+                                socket.emit('borad',{
+                                    username: username.innerHTML,
+                                    id_user: <%= users.id_user %>,
+                                    toUserId: toUserid
+                                });
+                            }
+                            catch(err)
+                            {
+                                console.log('Socket diconnected!');
+                            }
+                            
+                        }
+                        else
+                        {
+                            try
+                            {
+                                socket.emit('borad',{
+                                    username: ''
+                                });
+                            }
+                            catch(err)
+                            {
+                                console.log('Socket diconnected!');
+                            }
+                            
+                        }
+                    });
+
+                     socket.on('new_msg-response',function(data){
+                             alert(data);
+                             window.location.reload();
+                    });
+
+                    socket.on('new_msg',function(data){
+                      
+                        if(data.id_user == toUserid){
+                          
+                            $('<li class="sent"><p>' + data.message + '</p></li>').appendTo($('.messages ul'));
+                            $(".messages").stop().animate({ scrollTop: $(".messages")[0].scrollHeight}, 1000);                             
+                            $('#msg_' + data.id_user).html(data.message);
+                        }
+                                
+                    });
+                    function htmlspecialchars(text) {
+                        return text
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;")
+                            .replace(/'/g, "&#039;");
+                    }
+                    
+                    function newMessage() {
+                        
+                        if($.trim(htmlspecialchars(message.value)) == '') {
+                            return false;
+                        }
+                        $('<li class="replies"><p>' + htmlspecialchars(message.value) + '</p></li>').appendTo($('.messages ul'));
+                        $('.message-input input').val(null);
+                        $('.contact .preview').html(htmlspecialchars(message.value));
+                        $(".messages").stop().animate({ scrollTop: $(".messages")[0].scrollHeight}, 1000);                    };
+
+                    $('.submit').click(function() {
+                        newMessage();
+                    });
+
+                    $(window).on('keydown', function(e) {
+                    if (e.which == 13) {
+                        newMessage();
+                        return false;
+                    }
+                    });
+
+                    socket.on('new_borad',function(data){
+                        if(data.username == ''){
+                            $('#msg_' + data.id_user).val(null);
+                        }
+                       else{
+                            $('#msg_' + data.id_user).html('  Typing ...');
+                       }
+                    });
+
+                   socket.on('userList', function(data){
+                        $('#time_' + data.id).html(data.moments).css('color', '#b7b7b7');
+                        $('#date_' + data.id).html(data.moments).css('color', '#b7b7b7');
+                        $('.logout_'+ data.id).toggleClass('online busy');
+
+                   });
+
+
+                </script>
+<% } %>
